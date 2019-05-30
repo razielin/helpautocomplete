@@ -1,0 +1,25 @@
+{
+  "name": "nodets-helpautocomplete",
+  "version": "1.0.0",
+  "description": "Fish shell autocompletion from a command's --help/-h output",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "start": "npm run build:live",
+    "build": "tsc -p .",
+    "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "test": "jest --watchAll",
+    "coverage": "jest --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.3",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.5.1"
+  }
+}
