@@ -15,6 +15,14 @@ describe('--help parser', () => {
     });
 });
 
+describe('parseArgLine', () => {
+    it('should return a null on empty string', () => {
+        expect(parseArgLine('')).toEqual(null)
+    });
+    it('should return a null if string does not contain an arg', () => {
+        expect(parseArgLine('some irrelevant text')).toEqual(null)
+    });
+});
 
 function parseHelp(output: string): Array<Arg> {
     let res: Array<Arg> = [];
@@ -30,6 +38,11 @@ function parseHelp(output: string): Array<Arg> {
 }
 
 function parseArgLine(line: string): Arg | null {
+    line = line.trim();
+    if (!line.startsWith('-')) {
+        return null;
+    }
+
     let splitted = /^(\S+)\s+(.+)/.exec(line);
     if (splitted && splitted[1] && splitted[2]) {
         return {shortArg: splitted[1], description: splitted[2]};
