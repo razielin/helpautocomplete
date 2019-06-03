@@ -1,17 +1,20 @@
-describe('--help parser', () => {
-    it('should return an empty array if no args are found', () => {
-        expect(parseHelp('')).toEqual([])
+describe('parseArgs', () => {
+    it('returns empty array if input is empty', () => {
+        expect(parseArgs('')).toEqual([])
     });
-    it('should parse a single arg in a single line', () => {
+    it('returns empty array if input has no args', () => {
+        expect(parseArgs('irrelevant text\n\n- some other line\nanother-line')).toEqual([])
+    });
+    it('should parse a single arg in a line', () => {
         const expected: Array<Arg> = [{shortArg:'-v', description: 'Print version'}];
-        expect(parseHelp('-v    Print version')).toEqual(expected);
+        expect(parseArgs('-v    Print version')).toEqual(expected);
     });
-    it('should parse a single arg in multiple lines', () => {
+    it('should parse multiple arg in multiple lines', () => {
         const expected: Array<Arg> = [
             {shortArg:'-v', description: 'Print version'},
             {shortArg:'-g', description: '-g opt'},
         ];
-        expect(parseHelp('-v    Print version\n\n-g  -g opt')).toEqual(expected);
+        expect(parseArgs('-v    Print version\n\n-g  -g opt\nirrelevant - text')).toEqual(expected);
     });
 });
 
@@ -48,10 +51,10 @@ describe('parseArgLine', () => {
     });
 });
 
-function parseHelp(output: string): Array<Arg> {
+function parseArgs(input: string): Array<Arg> {
     let res: Array<Arg> = [];
 
-    for (let line of output.split("\n")) {
+    for (let line of input.split("\n")) {
         let arg = parseArgLine(line);
         if (arg) {
             res.push(arg);
