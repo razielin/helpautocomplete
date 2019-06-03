@@ -20,13 +20,21 @@ function parseHelp(output: string): Array<Arg> {
     let res: Array<Arg> = [];
 
     for (let line of output.split("\n")) {
-        let splitted = /^(\S+)\s+(.+)/.exec(line);
-        if (splitted) {
-            res.push({shortArg: splitted[1], description: splitted[2]});
+        let arg = parseArgLine(line);
+        if (arg) {
+            res.push(arg);
         }
     }
 
     return res;
+}
+
+function parseArgLine(line: string): Arg | null {
+    let splitted = /^(\S+)\s+(.+)/.exec(line);
+    if (splitted && splitted[1] && splitted[2]) {
+        return {shortArg: splitted[1], description: splitted[2]};
+    }
+    return null;
 }
 
 interface Arg {
